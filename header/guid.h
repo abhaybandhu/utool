@@ -1,0 +1,1 @@
+void guid_command(int argc, char *argv[]);

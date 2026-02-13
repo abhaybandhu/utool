@@ -1,0 +1,23 @@
+#ifndef TYPES_H
+#define TYPES_H
+    #define MAXCOUNT 1000
+    #define CLI_NAME "utool"
+    
+    typedef enum
+    {
+        UNKNOWN =0,
+        ALL =1,
+        GUIDV4=2,
+        GUIDV7=3,
+        ULID=4
+    } CmdType;
+
+    typedef enum 
+    {
+        MIN_VERSION = 1,
+        MAX_VERSION = 8,
+        VERSION_4 = 4,
+        VERSION_7 = 7,
+    } GuidVersion;
+
+#endif

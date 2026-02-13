@@ -1,0 +1,1 @@
+void history_command(int argc, char *argv[]);

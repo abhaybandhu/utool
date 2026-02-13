@@ -1,0 +1,5 @@
+How to Run:
+gcc main.c directive/* -o .bin/a.out && ./.bin/a.out && rm -f ./.bin/a.out 
+
+./.bin/a.out guid --version 4 --count 5
+

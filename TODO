@@ -1,0 +1,25 @@
+[✓] - Generate GUID 
+[✓]     - Add check and error msg if memory was not allocated
+[✓] - GUID: Option for Version 4 and 7 (default)
+[✓] - Check GUID Version and variant
+[✓]     - Warning not able to support version 8
+[✓]     - Check if given string is UUID or not
+[x] - Command for UUID and GUID should be the same. }=> remove the uuid part
+[✓] - Provide history - make history global, Store in binary format
+[✓]     - Implement like ls and ls -a --> add filter
+[✓]     - Cater for multiple guid stored when generated. (ID- type - timestamp - result )
+[✓]     - Make Enum/Struct dynamically store variables being passed.
+[✓] - Cater for fix size strings
+[ ] - Clipboard.
+[ ] - History option
+[ ] - GUID AND ULID: when creating multiple, handle concurrency using millisecond
+[ ] - Provide enable and disabled Clipboard and history option
+[ ] - Version option
+[✓] - Check filter for history for GUID V4 and V7
+[ ] - Record commands and apply it
+[=] - Handles errors
+------------------------------------------
+[ ] - Unit tests
+[ ] - Integration tests
+[ ] - Performance tests
+[ ] - README

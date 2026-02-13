@@ -1,0 +1,1 @@
+void ulid_command(int argc, char *argv[]);
