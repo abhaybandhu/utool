@@ -11,6 +11,40 @@ void guid_help()
     printf("Usage: %s guid [options]\n",CLI_NAME);
     printf("\t-v, --version 4|7   GUID version (default 7)\n");
     printf("\t-n, --count NUM     Number of GUIDs\n");
+    printf("\t-c, --check <guid>  Check if provided guid valid\n");
+}
+
+void print_variant (GuidVariant variant) 
+{
+    printf(" 2.\t");
+    switch (variant) 
+    {
+        case NCS:
+            printf("Variant: NCS (obsolete)\n");
+            break;
+        case RFC4122:
+            printf("Variant: RFC 4122 (standard GUID/UUID)\n");
+            break;
+        case MICROSOFT:
+            printf("Variant: Microsoft (legacy)\n");
+            break;
+        case FUTURE:
+            printf("Variant: Future / reserved\n");
+            break;
+        default:
+            printf("Variant: Unknown\n");
+    }
+}
+void print_version(const int version, const char* guid)
+{
+    if(version >= MIN_VERSION && version <= MAX_VERSION)
+    {
+        printf("The GUID %s :\n 1.\tVersion %d.\n",guid, version);
+    } 
+    else 
+    {
+        printf("The GUID %s is of an unknown version.\n", guid);
+    }
 }
 
 void guid_command(int argc, char *argv[]) 
@@ -40,8 +74,8 @@ void guid_command(int argc, char *argv[])
                     printf("The GUID `%s` is not in a valid format.\n", optarg);
                     exit(EXIT_FAILURE);
                 }
-                check_guid_version(optarg);
-                check_guid_variant(optarg);
+                print_version(get_guid_version(optarg), optarg);
+                print_variant(check_guid_variant(optarg));
                 return;
             case 'v':
                 version = atoi(optarg);

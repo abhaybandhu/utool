@@ -20,4 +20,13 @@
         VERSION_7 = 7,
     } GuidVersion;
 
+
+    typedef enum 
+    {
+        NCS = 0,
+        RFC4122 = 1,
+        MICROSOFT = 2,
+        FUTURE = 3
+    } GuidVariant;
+
 #endif
