@@ -18,7 +18,7 @@ uint64_t get_current_timestamp_MS()
 {
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000ULL) + (tv.tv_usec / 1000ULL);
+    return (tv.tv_sec * 1000000ULL) + tv.tv_usec;
 }
 
 uint64_t rand64()
