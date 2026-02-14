@@ -114,40 +114,30 @@ char** generate_guid_v4(int number)
     return guids;
 }
 
-void check_guid_version(const char* guid)
+int get_guid_version(const char* guid)
 {
-    int version = atoi((char[]){guid[14], '\0'});
-
-    if(version >= MIN_VERSION && version <= MAX_VERSION)
-    {
-        printf("The GUID %s :\n 1.\tVersion %d.\n",guid, version);
-    } 
-    else 
-    {
-        printf("The GUID %s is of an unknown version.\n", guid);
-    }
+    return atoi((char[]){guid[14], '\0'});
 }
 
-void check_guid_variant(const char* guid)
+GuidVariant check_guid_variant(const char* guid)
 {
     char c = tolower(guid[19]);  // first hex digit of the 9th byte
 
-    printf(" 2.\t");
     if (c == '8' || c == '9' || c == 'a' || c == 'b') 
     {
-        printf("Variant: RFC 4122 (standard GUID/UUID)\n");
+        return RFC4122;
     } 
     else if (c == 'c' || c == 'd') 
     {
-        printf("Variant: Microsoft (legacy)\n");
+        return MICROSOFT;
     } 
     else if (c == 'e' || c == 'f') 
     {
-        printf("Variant: Future / reserved\n");
+        return FUTURE;
     } 
     else 
     {
-        printf("Variant: NCS (obsolete)\n");
+        return NCS;
     }
 }
 
@@ -178,11 +168,7 @@ bool is_valid_guid_format(const char* guid)
 
     for (int i = 0; i < guid_len; i++) 
     {
-        if (guid[i] != guid_seperator) 
-        {
-            return false;
-        } 
-        else if (!isxdigit(guid[i])) 
+        if (guid[i] != guid_seperator && !isxdigit(guid[i])) 
         {
             return false;
         }
