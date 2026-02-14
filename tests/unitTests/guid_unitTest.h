@@ -1,0 +1,1 @@
+int RUN_GUID_TESTS();

@@ -1,0 +1,1 @@
+int RUN_ULID_TESTS();
