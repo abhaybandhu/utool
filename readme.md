@@ -8,8 +8,14 @@ utool short for utils tool is a cli including:
 
 ## How to compile
 
+### Compile tool:
 ```bash
 gcc main.c directive/* -o utool
+```
+### How to compile unit test:
+
+```bash
+gcc tests/unitTest.c tests/Unity/* tests/unitTests/*  directive/* -Iunity -o .bin/unitTest
 ```
 
 ## Commands
@@ -41,7 +47,7 @@ $ utool ulid
 
 View generation history:
 ```bash
-$ utool history
+$ utool history -l
 GUIDv4 [Timestamp] 550e8400-e29b-41d4-a716-446655440000
 GUIDv7 [Timestamp] 018f5c2a-d8e0-7000-8000-000000000001
 GUIDv7 [Timestamp] 018f5c2a-d8e0-7000-8000-000000000002 
