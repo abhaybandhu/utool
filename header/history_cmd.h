@@ -9,7 +9,7 @@
     typedef struct 
     {
         CmdType type;
-        char result[512];
+        char result[36];
         struct timeval timestamp;
     } HistoryEntry;
 
