@@ -6,6 +6,11 @@ utool short for utils tool is a cli including:
  - Generating ULID
  - Keep a History of what was generated which can be filtered
 
+## How to compile
+
+```bash
+gcc main.c directive/* -o utool
+```
 
 ## Commands
 
