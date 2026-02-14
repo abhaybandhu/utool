@@ -166,7 +166,7 @@ bool is_valid_guid_format(const char* guid)
 
     const char guid_seperator = '-';
 
-    for (int i = 0; i < guid_len; i++) 
+    for (size_t i = 0; i < guid_len; i++) 
     {
         if (guid[i] != guid_seperator && !isxdigit(guid[i])) 
         {

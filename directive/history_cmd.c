@@ -31,7 +31,7 @@ void history_save(HistoryEntry history_entries,char ** results, int count)
         return;
     }
     
-    for (size_t i = 0; i < count; i++) 
+    for (int i = 0; i < count; i++) 
     {
         snprintf(history_entries.result, sizeof(history_entries.result), "%s", results[i]);
         fwrite(&history_entries, sizeof(history_entries), 1, fp);
@@ -82,7 +82,7 @@ void history_show(CmdType filter_type)
 
             printf("ID: %lu, Type: %s, Timestamp: %s.%04ld, Result: %s\n",
                    id, CmdTypeName(entry.type),
-                   time_buf, entry.timestamp.tv_usec / 1000, entry.result == NULL?  "NULL": entry.result);
+                   time_buf, entry.timestamp.tv_usec / 1000, entry.result);
         }
     }
 
