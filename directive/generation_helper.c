@@ -3,16 +3,17 @@
 #include <time.h>
 #include <stdio.h>
 #include "../header/generation_helper.h"
-
-// This is the SplitMix64 "Finalizer"
-// It ensures high avalanche effect (one bit change flips 50% of output)
-uint64_t scramble(uint64_t x) 
-{
-    x = (x ^ (x >> 30)) * 0xBF58476D1CE4E5B9ULL;
-    x = (x ^ (x >> 27)) * 0x94D049BB133111EBULL;
-    x = (x ^ (x >> 31));
-    return x;
-}
+#include "../header/utils.h"
+    
+#ifdef WIN32
+    #include <windows.h>
+    #include <bcrypt.h>
+    #ifdef _MSC_VER
+        #pragma comment(lib, "bcrypt.lib")  // only for MSVC
+    #endif
+#elif defined(__linux__)
+    #include <sys/random.h>
+#endif
 
 uint64_t get_current_timestamp_MS() 
 {
@@ -23,10 +24,29 @@ uint64_t get_current_timestamp_MS()
 
 uint64_t rand64()
 {
-    uint64_t raw = (((uint64_t)random()) << 32) | ((uint64_t)random());
-    
-    // Scramble them to destroy patterns
-    return scramble(raw);
+    #ifdef _WIN32
+        uint64_t value;
+        if (BCryptGenRandom(NULL, (PUCHAR)&value, sizeof(value), BCRYPT_USE_SYSTEM_PREFERRED_RNG) != 0) 
+        {
+            fprintf(stderr, "Failed to generate random number\n");
+            exit(EXIT_FAILURE);
+        }
+        return value;
+    #elif defined(__linux__)
+        uint64_t value;
+        int result = getrandom(&value, sizeof(value), 0);
+        if (result != sizeof(value)) {
+            fprintf(stderr, "Failed to generate random number\n");
+            exit(EXIT_FAILURE);
+        }
+        return value;
+    #elif defined(__APPLE__)
+        uint64_t value;
+        arc4random_buf(&value, sizeof(value)); // preferred over combining arc4random()
+        return value;
+    #else
+        #error "Unsupported platform. Please report this issue to the developer."
+    #endif
 }
 
 void check_memory_allocation(void *ptr)

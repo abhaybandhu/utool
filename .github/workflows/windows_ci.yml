@@ -1,0 +1,43 @@
+name: Windows CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install MSYS2 (GCC)
+      uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >
+          mingw-w64-x86_64-gcc
+          make
+          mingw-w64-x86_64-pkg-config
+
+    - name: Create bin directory
+      run: mkdir .bin
+
+    - name: Compile unit tests
+      shell: bash
+      run: |
+        gcc -Wall -Wextra \
+        tests/unitTest.c \
+        tests/Unity/*.c \
+        tests/unitTests/*.c \
+        directive/*.c \
+        -Iunity \
+        -lbcrypt \
+        -o .bin/unitTests.exe
+
+    - name: Run unit tests
+      shell: bash
+      run: ./.bin/unitTests.exe

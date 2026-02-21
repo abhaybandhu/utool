@@ -6,6 +6,7 @@
 #include "../header/types.h"
 #include "../header/generation_helper.h"
 #include "../header/history_cmd.h"
+#include "../header/utils.h"
 
 const char* ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"; //base 30
 
@@ -50,7 +51,7 @@ char ** generate_ulid_cmd(size_t number)
     char **ulids = malloc(number * sizeof(char*));
     check_memory_allocation(ulids);
 
-    srandom(time(NULL)); 
+    init_random();
     
     for (size_t i = 0; i < number; i++) 
     {

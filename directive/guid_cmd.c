@@ -8,13 +8,14 @@
 #include "../header/types.h"
 #include "../header/generation_helper.h"
 #include "../header/history_cmd.h"
+#include "../header/utils.h"
 
 char** generate_guid_v7(int number)
 {
     char **guids = malloc(number * sizeof(char*));
     check_memory_allocation(guids);
     
-    srandom(time(NULL));
+    init_random();
 
     for(int i = 0; i < number; i++)
     {
@@ -67,7 +68,7 @@ char** generate_guid_v4(int number)
     char **guids = malloc(number * sizeof(char*));
     check_memory_allocation(guids);
 
-    srandom(time(NULL)); 
+    init_random();
 
     for(int i = 0; i < number; i++)
     {
