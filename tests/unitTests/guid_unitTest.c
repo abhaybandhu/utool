@@ -41,6 +41,7 @@ void test_guid_multiple_count() {
 
 void test_valid_guid_format() {
     TEST_ASSERT_EQUAL(1, is_valid_guid_format(TESTGUIDV4));
+    TEST_ASSERT_EQUAL(1, is_valid_guid_format(TESTGUIDV7));
     TEST_ASSERT_EQUAL(0, is_valid_guid_format("invalid"));
     TEST_ASSERT_EQUAL(0, is_valid_guid_format("550e8400e29b41d4a716446655440000"));
 }
@@ -48,10 +49,33 @@ void test_valid_guid_format() {
 void test_check_guid_version() {
     TEST_ASSERT_EQUAL(VERSION_4,get_guid_version(TESTGUIDV4));
     TEST_ASSERT_EQUAL(VERSION_7,get_guid_version(TESTGUIDV7));
+    TEST_ASSERT_EQUAL(MIN_VERSION,get_guid_version("xxxxxxxx-xxxx-1xxx-Nxxx-xxxxxxxxxxxx")); // Version 1 GUID
+    TEST_ASSERT_EQUAL(2,get_guid_version("xxxxxxxx-xxxx-2xxx-Nxxx-xxxxxxxxxxxx")); // Vesroin 2 GUID
+    TEST_ASSERT_EQUAL(3,get_guid_version("xxxxxxxx-xxxx-3xxx-Nxxx-xxxxxxxxxxxx")); // Version 3 GUID
+    TEST_ASSERT_EQUAL(5,get_guid_version("xxxxxxxx-xxxx-5xxx-Nxxx-xxxxxxxxxxxx")); // Version 5 GUID
+    TEST_ASSERT_EQUAL(6,get_guid_version("xxxxxxxx-xxxx-6xxx-Nxxx-xxxxxxxxxxxx")); // Version 6 GUID
+    TEST_ASSERT_EQUAL(MAX_VERSION,get_guid_version("xxxxxxxx-xxxx-8xxx-Nxxx-xxxxxxxxxxxx")); // Version 8 GUID
+
 }
 
 void test_check_guid_variant() {
+    //RFC4122
     TEST_ASSERT_EQUAL(RFC4122, check_guid_variant(TESTGUIDV4));
+    TEST_ASSERT_EQUAL(RFC4122, check_guid_variant(TESTGUIDV7));
+    TEST_ASSERT_EQUAL(RFC4122, check_guid_variant("xxxxxxxx-xxxx-Mxxx-bxxx-xxxxxxxxxxxx"));
+    TEST_ASSERT_EQUAL(RFC4122, check_guid_variant("xxxxxxxx-xxxx-Mxxx-8xxx-xxxxxxxxxxxx"));
+    //MICROSOFT
+    TEST_ASSERT_EQUAL(MICROSOFT, check_guid_variant("xxxxxxxx-xxxx-Mxxx-cxxx-xxxxxxxxxxxx"));
+    TEST_ASSERT_EQUAL(MICROSOFT, check_guid_variant("xxxxxxxx-xxxx-Mxxx-dxxx-xxxxxxxxxxxx"));
+    //FUTURE
+    TEST_ASSERT_EQUAL(FUTURE, check_guid_variant("xxxxxxxx-xxxx-Mxxx-exxx-xxxxxxxxxxxx"));
+    TEST_ASSERT_EQUAL(FUTURE, check_guid_variant("xxxxxxxx-xxxx-Mxxx-fxxx-xxxxxxxxxxxx"));
+    //NCS
+    TEST_ASSERT_EQUAL(NCS, check_guid_variant("xxxxxxxx-xxxx-Mxxx-0xxx-xxxxxxxxxxxx"));
+    TEST_ASSERT_EQUAL(NCS, check_guid_variant("xxxxxxxx-xxxx-Mxxx-7xxx-xxxxxxxxxxxx"));
+    //INVALID
+    TEST_ASSERT_EQUAL(INVALID, check_guid_variant("xxxxxxxx-xxxx-Mxxx-gxxx-xxxxxxxxxxxx"));
+    TEST_ASSERT_EQUAL(INVALID, check_guid_variant("xxxxxxxx-xxxx-Mxxx-Zxxx-xxxxxxxxxxxx"));
 }
 
 int RUN_GUID_TESTS() {

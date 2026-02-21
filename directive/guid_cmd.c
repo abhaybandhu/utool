@@ -122,24 +122,21 @@ int get_guid_version(const char* guid)
 
 GuidVariant check_guid_variant(const char* guid)
 {
-    char c = tolower(guid[19]);  // first hex digit of the 9th byte
+    char c = tolower(guid[19]);
 
-    if (c == '8' || c == '9' || c == 'a' || c == 'b') 
-    {
-        return RFC4122;
-    } 
-    else if (c == 'c' || c == 'd') 
-    {
-        return MICROSOFT;
-    } 
-    else if (c == 'e' || c == 'f') 
-    {
-        return FUTURE;
-    } 
-    else 
-    {
+    if (!isxdigit(c))
+        return INVALID;
+
+    int value = (c <= '9') ? c - '0' : c - 'a' + 10;
+
+    if ((value & 0x8) == 0)          // 0xxx
         return NCS;
-    }
+    else if ((value & 0xC) == 0x8)   // 10xx
+        return RFC4122;
+    else if ((value & 0xE) == 0xC)   // 110x
+        return MICROSOFT;
+    else                             // 111x
+        return FUTURE;
 }
 
 void print_generated_guids(char **guids, int version, int count)
