@@ -26,7 +26,8 @@
         NCS = 0,
         RFC4122 = 1,
         MICROSOFT = 2,
-        FUTURE = 3
+        FUTURE = 3,
+        INVALID = -1
     } GuidVariant;
 
 #endif
