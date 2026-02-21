@@ -1,8 +1,10 @@
 #include "../header/history_cmd.h"
+#include "../header/utils.h"
 #include <stdio.h>
 #include <sys/time.h>
 #include <string.h>
 #include <time.h>
+#include <stdlib.h>
 
 
 // PRIVATE METHODS
@@ -77,7 +79,14 @@ void history_show(CmdType filter_type)
         ++id;
         if (filter_type == ALL || entry.type == filter_type) 
         {
-            localtime_r(&entry.timestamp.tv_sec, &tm);
+            if (platform_localtime((time_t *)&entry.timestamp.tv_sec, &tm) != 0) 
+            {
+                perror("Failed to convert timestamp");
+                fclose(fp);
+
+                exit(EXIT_FAILURE);
+            }
+
             strftime(time_buf, sizeof(time_buf), "%d/%m/%Y %H:%M:%S", &tm);
 
             printf("ID: %lu, Type: %s, Timestamp: %s.%04ld, Result: %s\n",
