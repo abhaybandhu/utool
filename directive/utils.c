@@ -1,13 +1,17 @@
 #include "../header/utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
-#if __APPLE__
-    #include <stdlib.h>
-#elif defined(__linux__)
-    #include <stdlib.h>
-#elif defined(_WIN32)
+#if _WIN32
     #include <windows.h>
+     #include <direct.h>   // _mkdir
+    #define MKDIR(path) _mkdir(path)
+#else
+    #include <stdlib.h>
+    #include <sys/stat.h> // mkdir
+    #include <sys/types.h>
+    #define MKDIR(path) mkdir(path, 0755)
 #endif
 
 void init_random() 
@@ -29,4 +33,15 @@ int platform_localtime(time_t *timep, struct tm *result)
     #else
         return localtime_r(timep, result) == NULL ? -1 : 0;
     #endif
+}
+
+int ensure_directory(const char *path)
+{
+    if (MKDIR(path) == 0)
+        return 0;  // created successfully
+
+    if (errno == EEXIST)
+        return 0;  // already exists (this is fine)
+
+    return -1;     // real error
 }

@@ -1,10 +1,11 @@
 #include <sys/time.h>
 #include "types.h"
+#include <string.h>
 
 #ifndef HISTORY_H
 #define HISTORY_H
-
-    #define HISTORY_LOG_FILE ".bin/history.log"
+    #define HISTORY_LOG_DIR ".bin"
+    #define HISTORY_LOG_FILE HISTORY_LOG_DIR "/" CLI_NAME "History.log"
 
     typedef struct 
     {
