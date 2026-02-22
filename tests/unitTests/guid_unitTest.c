@@ -43,6 +43,7 @@ void test_valid_guid_format() {
     TEST_ASSERT_EQUAL(1, is_valid_guid_format(TESTGUIDV4));
     TEST_ASSERT_EQUAL(1, is_valid_guid_format(TESTGUIDV7));
     TEST_ASSERT_EQUAL(0, is_valid_guid_format("invalid"));
+    TEST_ASSERT_EQUAL(0, is_valid_guid_format(NULL));
     TEST_ASSERT_EQUAL(0, is_valid_guid_format("550e8400e29b41d4a716446655440000"));
 }
 

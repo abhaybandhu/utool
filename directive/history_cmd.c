@@ -24,6 +24,11 @@ char* CmdTypeName(CmdType type)
 
 void history_save(HistoryEntry history_entries,char ** results, int count)
 {
+    if (ensure_directory(HISTORY_LOG_DIR) != 0) 
+    {
+        perror("Failed to create history log directory");
+        return;
+    }
     
     FILE *fp = fopen(HISTORY_LOG_FILE, "ab");
 
