@@ -1,4 +1,5 @@
 #include "../header/history_cmd.h"
+#include "../header/copy_cmd.h"
 #include "../header/utils.h"
 #include <stdio.h>
 #include <sys/time.h>
@@ -8,6 +9,19 @@
 
 
 // PRIVATE METHODS
+int getTypeLength(CmdType type)
+{
+    switch (type) 
+    {
+        case GUIDV4:
+        case GUIDV7:
+            return 36;
+        case ULID:
+            return 26;
+        default:
+            return 0;
+    }
+}
 char* CmdTypeName(CmdType type)
 {
     switch (type) {
@@ -22,9 +36,33 @@ char* CmdTypeName(CmdType type)
     }
 }
 
+const char* result_to_str(char ** result, int count, int length)
+{
+    int total_length = (length * count)+ (count - 1) *2 + 1; // length of result + ", " between results + null terminator
+    char * result_str = (char *)calloc(1,total_length);
+
+    if (!result_str)    {
+        perror("Failed to allocate memory for result string");
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < count; ++i) 
+    {
+        strcat(result_str, result[i]);
+        if (i < count - 1) 
+        {
+            strcat(result_str, ", ");
+        }
+    }
+
+    strcat(result_str, "\0"); // Null terminator
+
+    return result_str;
+}
+
 void history_save(HistoryEntry history_entries,char ** results, int count)
 {
-    if (ensure_directory(HISTORY_LOG_DIR) != 0) 
+    if (ensure_directory(BIN_DIR) != 0) 
     {
         perror("Failed to create history log directory");
         return;
@@ -61,6 +99,13 @@ void history_add(CmdType command_type,char ** results,int count)
     memset(&history_entries.result, 0, sizeof(history_entries.result));
 
     history_save(history_entries, results, count);
+
+    //copy to clipboard
+    int length = getTypeLength(command_type);
+    const char * result_str = result_to_str(results, count,length);
+    copy_to_clipboard(result_str);
+
+    free((void*)result_str);
 }
 
 
