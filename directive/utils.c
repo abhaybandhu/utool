@@ -5,7 +5,7 @@
 
 #if _WIN32
     #include <windows.h>
-     #include <direct.h>   // _mkdir
+    #include <direct.h>   // _mkdir
     #define MKDIR(path) _mkdir(path)
 #else
     #include <stdlib.h>
@@ -24,7 +24,6 @@ void init_random()
 #endif
 
 }
-
 
 int platform_localtime(time_t *timep, struct tm *result) 
 {

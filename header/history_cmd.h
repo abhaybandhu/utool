@@ -4,8 +4,7 @@
 
 #ifndef HISTORY_H
 #define HISTORY_H
-    #define HISTORY_LOG_DIR ".bin"
-    #define HISTORY_LOG_FILE HISTORY_LOG_DIR "/" CLI_NAME "History.log"
+    #define HISTORY_LOG_FILE BIN_DIR "/" CLI_NAME "History.log"
 
     typedef struct 
     {

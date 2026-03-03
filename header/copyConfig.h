@@ -1,0 +1,1 @@
+void copy_config_command(int argc, char *argv[]);

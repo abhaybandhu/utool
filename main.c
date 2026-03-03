@@ -6,6 +6,7 @@
 #include "header/guid.h"
 #include "header/history.h"
 #include "header/ulid.h"
+#include "header/copyConfig.h"
 #include "header/types.h"
 #define CLI_VERSION "1.0.0"
 
@@ -15,10 +16,10 @@ void print_help()
     printf("Options:\n");
     printf("\tguid                Generate GUID(Version 7(default) or 4)\n");
     printf("\tulid                Generate ULID.(NUM default value is 1)\n");
-    printf("\tcopy                Copy GUID/UUID to clipboard\n");
+    printf("\tcconfig             Set/Show the default configuration for copy to clipboard\n");
     printf("\thistory TYPE        Show history (ALL, GUID, ULID)\n");
     printf("\thelp                Show this help message\n");
-    printf("\version              Show cli version\n");
+    printf("\tversion             Show cli version\n");
 }
 
 
@@ -38,10 +39,9 @@ int main(int argc, char *argv[])
     {
         ulid_command(argc - 1, argv +1);
     }
-    else if (strcmp(argv[1], "copy") == 0) 
+    else if (strcmp(argv[1], "cconfig") == 0) 
     {
-        // Placeholder for copy command
-        printf("Copy command selected\n");
+        copy_config_command(argc - 1, argv +1);
     } 
     else if (strcmp(argv[1], "history") == 0) 
     {

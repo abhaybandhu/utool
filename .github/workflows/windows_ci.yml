@@ -17,6 +17,7 @@ jobs:
     - name: Install MSYS2 (GCC)
       uses: msys2/setup-msys2@v2
       with:
+        msystem: MINGW64
         update: true
         install: >
           mingw-w64-x86_64-gcc
@@ -27,7 +28,7 @@ jobs:
       run: mkdir .bin
 
     - name: Compile unit tests
-      shell: bash
+      shell: msys2 {0}
       run: |
         gcc -Wall -Wextra \
         tests/unitTest.c \
@@ -36,8 +37,9 @@ jobs:
         directive/*.c \
         -Iunity \
         -lbcrypt \
+        -luser32 \
         -o .bin/unitTests.exe
 
     - name: Run unit tests
-      shell: bash
+      shell: msys2 {0}
       run: ./.bin/unitTests.exe

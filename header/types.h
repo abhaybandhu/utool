@@ -2,6 +2,7 @@
 #define TYPES_H
     #define MAXCOUNT 1000
     #define CLI_NAME "utool"
+    #define BIN_DIR ".bin"
     
     typedef enum
     {
