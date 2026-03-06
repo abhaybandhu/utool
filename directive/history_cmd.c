@@ -129,11 +129,14 @@ void history_show(CmdType filter_type)
         ++id;
         if (filter_type == ALL || entry.type == filter_type) 
         {
-            if (platform_localtime((time_t *)&entry.timestamp.tv_sec, &tm) != 0) 
+            printf("Raw tv_sec: %lld\n", (long long)entry.timestamp.tv_sec);
+            time_t raw_time = (time_t)entry.timestamp.tv_sec;
+            if (platform_localtime(&raw_time, &tm) != 0) 
             {
-                perror("Failed to convert timestamp");
+                // If raw_time is -1 or very large, Windows will fail here
+                fprintf(stderr, "Failed to convert timestamp: %lld\n", (long long)raw_time);
+                perror("Error detail");
                 fclose(fp);
-
                 exit(EXIT_FAILURE);
             }
 
@@ -147,3 +150,7 @@ void history_show(CmdType filter_type)
 
     fclose(fp);
 }
+
+/*
+If you are reading from a binary file, ensure your struct uses fixed-width types (like int64_t) instead of time_t, as time_t changes size between platforms.
+*/
