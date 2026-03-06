@@ -129,7 +129,6 @@ void history_show(CmdType filter_type)
         ++id;
         if (filter_type == ALL || entry.type == filter_type) 
         {
-            printf("Raw tv_sec: %lld\n", (long long)entry.timestamp.tv_sec);
             time_t raw_time = (time_t)entry.timestamp.tv_sec;
             if (platform_localtime(&raw_time, &tm) != 0) 
             {
